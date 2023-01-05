@@ -2,9 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AnimesIndex } from "./AnimesIndex";
 import { AnimesNew } from "./AnimesNew";
+import { AnimesShow } from "./AnimesShow";
+import { Modal } from "./Modal";
 
 export function Home() {
   const [animes, setAnimes] = useState([]);
+  const [IsAnimesShowVisible, setIsAnimesShowVisible] = useState(false);
+  const [currentAnime, setCurrentAnime] = useState({});
 
   const handleIndexAnimes = () => {
     console.log("handleIndexAnimes");
@@ -22,12 +26,59 @@ export function Home() {
     });
   };
 
+  const handleShowAnime = (anime) => {
+    console.log("handleShowAnime", anime);
+    setIsAnimesShowVisible(true);
+    setCurrentAnime(anime);
+  };
+
+  const handleClose = () => {
+    console.log("handleClose");
+    setIsAnimesShowVisible(false);
+  };
+
+  const handleUpdateAnime = (id, params, successCallback) => {
+    console.log("handleUpdateAnime", params);
+    axios
+      .patch("http://localhost:3000/animes/${id}.json", params)
+      .then((response) => {
+        setAnimes(
+          animes.map((anime) => {
+            if (anime.id === response.data.id) {
+              return response.data;
+            } else {
+              return anime;
+            }
+          })
+        );
+        successCallback();
+        handleClose();
+      });
+  };
+
+  const handleDestroyAnime = (anime) => {
+    console.log("handleDestroyAnime", anime);
+    axios
+      .delete("http://localhost:3000/animes/${anime.id}.json")
+      .then((response) => {
+        setAnimes(animes.filter((p) => p.id !== anime.id));
+        handleClose();
+      });
+  };
+
   useEffect(handleIndexAnimes, []);
 
   return (
     <div>
       <AnimesNew onCreateAnime={handleCreateAnime} />
-      <AnimesIndex animes={animes} />
+      <AnimesIndex animes={animes} onShowAnime={handleShowAnime} />
+      <Modal show={IsAnimesShowVisible} onClose={handleClose}>
+        <AnimesShow
+          anime={currentAnime}
+          onUpdateAnime={handleUpdateAnime}
+          onDestroyAnime={handleDestroyAnime}
+        />
+      </Modal>
     </div>
   );
 }

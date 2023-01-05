@@ -8,6 +8,7 @@ export function AnimesIndex(props) {
           <img src={anime.image_url} />
           <p>Category: {anime.category}</p>
           <p>Description: {anime.description}</p>
+          <button onClick={() => props.onShowAnime(anime)}>More Info</button>
         </div>
       ))}
     </div>
