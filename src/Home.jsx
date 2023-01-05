@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AnimesIndex } from "./AnimesIndex";
+import { AnimesNew } from "./AnimesNew";
 
 export function Home() {
   const [animes, setAnimes] = useState([]);
@@ -13,10 +14,19 @@ export function Home() {
     });
   };
 
+  const handleCreateAnime = (params, successCallback) => {
+    console.log("handleCreateAnime", params);
+    axios.post("http://localhost:3000/animes.json", params).then((response) => {
+      setAnimes([...animes, response.data]);
+      successCallback();
+    });
+  };
+
   useEffect(handleIndexAnimes, []);
 
   return (
     <div>
+      <AnimesNew onCreateAnime={handleCreateAnime} />
       <AnimesIndex animes={animes} />
     </div>
   );

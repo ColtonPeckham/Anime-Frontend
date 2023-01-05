@@ -5,7 +5,7 @@ export function AnimesIndex(props) {
       {props.animes.map((anime) => (
         <div key={anime.id}>
           <h2>{anime.title}</h2>
-          <img src={anime.url} />
+          <img src={anime.image_url} />
           <p>Category: {anime.category}</p>
           <p>Description: {anime.description}</p>
         </div>
