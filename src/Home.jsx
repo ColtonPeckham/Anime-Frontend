@@ -3,12 +3,36 @@ import { useEffect, useState } from "react";
 import { AnimesIndex } from "./AnimesIndex";
 import { AnimesNew } from "./AnimesNew";
 import { AnimesShow } from "./AnimesShow";
+import { FavoritesIndex } from "./FavoritesIndex";
+import { FavoritesNew } from "./FavoritesNew";
 import { Signup } from "./Signup";
 import { Login } from "./Login";
 import { LogoutLink } from "./LogoutLink";
 import { Modal } from "./Modal";
 
 export function Home() {
+  const [favorites, setFavorites] = useState([]);
+
+  const handleIndexFavorites = () => {
+    console.log("handleIndexFavorites");
+    axios.get("http://localhost:3000/favorites.json").then((response) => {
+      console.log(response.data);
+      setFavorites(response.data);
+    });
+  };
+
+  const handleCreateFavorite = (params, successCallback) => {
+    console.log("handleCreateFavorite", params);
+    axios
+      .post("http://localhost:3000/favorites.json", params)
+      .then((response) => {
+        setFavorites([...favorites, response.data]);
+        successCallback();
+      });
+  };
+
+  useEffect(handleIndexFavorites, []);
+
   const [animes, setAnimes] = useState([]);
   const [IsAnimesShowVisible, setIsAnimesShowVisible] = useState(false);
   const [currentAnime, setCurrentAnime] = useState({});
@@ -76,6 +100,8 @@ export function Home() {
       <Signup />
       <Login />
       <LogoutLink />
+      <FavoritesNew onCreateFavorite={handleCreateFavorite} />
+      <FavoritesIndex favorites={favorites} />
       <AnimesNew onCreateAnime={handleCreateAnime} />
       <AnimesIndex animes={animes} onShowAnime={handleShowAnime} />
       <Modal show={IsAnimesShowVisible} onClose={handleClose}>
