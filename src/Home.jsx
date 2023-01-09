@@ -97,9 +97,9 @@ export function Home() {
 
   return (
     <div>
-      <Signup />
+      {/* <Signup />
       <Login />
-      <LogoutLink />
+      <LogoutLink /> */}
       <FavoritesNew onCreateFavorite={handleCreateFavorite} />
       <FavoritesIndex favorites={favorites} />
       <AnimesNew onCreateAnime={handleCreateAnime} />

@@ -1,3 +1,8 @@
 html {
   scroll-behavior: smooth;
 }
+
+#root {
+  font-family: 'Lora', Times, serif;
+  background-image: url('./assets/pink-flowers.jpeg');
+}

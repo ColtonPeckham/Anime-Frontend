@@ -7,7 +7,7 @@ export function FavoritesNew(props) {
 
   return (
     <div>
-      <h1>New Favorite</h1>
+      <h1>Watch Later</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Anime_id: <input name="anime_id" type="text" />
@@ -15,7 +15,7 @@ export function FavoritesNew(props) {
         <div>
           User_id: <input name="user_id" type="text" />
         </div>
-        <button type="submit">Create Favorite</button>
+        <button type="submit">Watch Later!</button>
       </form>
     </div>
   );
