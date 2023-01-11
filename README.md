@@ -9,7 +9,7 @@ This is the frontend of my anime list app, allowing users to browse a list of sh
 
 ## Installation 
 git clone of both my backend/frontend (backend is called Anime-Capstone) in my repos
-"npm install"
+then you just "npm install" in your terminal
 
 ## Usage
 "npm run dev"
