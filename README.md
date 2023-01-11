@@ -8,6 +8,7 @@ This is the frontend of my anime list app, allowing users to browse a list of sh
 - bootstrap
 
 ## Installation 
+git clone of both my backend and frontend (backend is called Anime-Capstone" in my repos
 "npm install"
 
 ## Usage
