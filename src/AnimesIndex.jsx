@@ -1,7 +1,7 @@
 export function AnimesIndex(props) {
   return (
     <div>
-      <h1>Choose Your Adventure Here!</h1>
+      <h1>Anime List</h1>
       {props.animes.map((anime) => (
         <div key={anime.id}>
           <h2>{anime.title}</h2>

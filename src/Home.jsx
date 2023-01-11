@@ -11,8 +11,6 @@ import { LogoutLink } from "./LogoutLink";
 import { Modal } from "./Modal";
 
 export function Home() {
-  const [favorites, setFavorites] = useState([]);
-
   const handleIndexFavorites = () => {
     console.log("handleIndexFavorites");
     axios.get("http://localhost:3000/favorites.json").then((response) => {
@@ -21,21 +19,15 @@ export function Home() {
     });
   };
 
-  const handleCreateFavorite = (params, successCallback) => {
-    console.log("handleCreateFavorite", params);
-    axios
-      .post("http://localhost:3000/favorites.json", params)
-      .then((response) => {
-        setFavorites([...favorites, response.data]);
-        successCallback();
-      });
-  };
-
   useEffect(handleIndexFavorites, []);
 
   const [animes, setAnimes] = useState([]);
   const [IsAnimesShowVisible, setIsAnimesShowVisible] = useState(false);
   const [currentAnime, setCurrentAnime] = useState({});
+
+  const [favorites, setFavorites] = useState([]);
+  const [IsFavoritesShowVisible, setIsFavoritesShowVisible] = useState(false);
+  const [currentFavorite, setCurrentFavorite] = useState({});
 
   const handleIndexAnimes = () => {
     console.log("handleIndexAnimes");
@@ -67,7 +59,7 @@ export function Home() {
   const handleUpdateAnime = (id, params, successCallback) => {
     console.log("handleUpdateAnime", params);
     axios
-      .patch("http://localhost:3000/animes/${id}.json", params)
+      .patch('http://localhost:3000/animes/${id}.json', params)
       .then((response) => {
         setAnimes(
           animes.map((anime) => {
@@ -86,9 +78,29 @@ export function Home() {
   const handleDestroyAnime = (anime) => {
     console.log("handleDestroyAnime", anime);
     axios
-      .delete("http://localhost:3000/animes/${anime.id}.json")
+      .delete('http://localhost:3000/animes/${anime.id}.json')
       .then((response) => {
         setAnimes(animes.filter((p) => p.id !== anime.id));
+        handleClose();
+      });
+  };
+
+  const handleCreateFavorite = (params, successCallback) => {
+    console.log("handleCreateFavorite", params);
+    axios
+      .post("http://localhost:3000/favorites.json", params)
+      .then((response) => {
+        setFavorites([...favorites, response.data]);
+        successCallback();
+      });
+  };
+
+  const handleDestroyFavorite = (favorite) => {
+    console.log("handleDestroyFavorite", favorite);
+    axios
+      .delete('http://localhost:3000/favorites/${favorite.id}.json')
+      .then((response) => {
+        setFavorites(favorites.filter((p) => p.id !== favorite.id));
         handleClose();
       });
   };
@@ -97,11 +109,17 @@ export function Home() {
 
   return (
     <div>
-      {/* <Signup />
-      <Login />
-      <LogoutLink /> */}
-      <FavoritesNew onCreateFavorite={handleCreateFavorite} />
-      <FavoritesIndex favorites={favorites} />
+      {/* <FavoritesNew onCreateFavorite={handleCreateFavorite} /> */}
+      <FavoritesIndex
+        favorites={favorites}
+        onShowFavorites={handleCreateFavorite}
+      />
+      <Modal show={IsFavoritesShowVisible} onClose={handleClose} />
+      <favorites
+        favorite={currentFavorite}
+        onDestroyFavorite={handleDestroyFavorite}
+      />
+
       <AnimesNew onCreateAnime={handleCreateAnime} />
       <AnimesIndex animes={animes} onShowAnime={handleShowAnime} />
       <Modal show={IsAnimesShowVisible} onClose={handleClose}>
@@ -109,6 +127,7 @@ export function Home() {
           anime={currentAnime}
           onUpdateAnime={handleUpdateAnime}
           onDestroyAnime={handleDestroyAnime}
+          onCreateFavorite={handleCreateFavorite}
         />
       </Modal>
     </div>

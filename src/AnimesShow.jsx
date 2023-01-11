@@ -5,13 +5,17 @@ export function AnimesShow(props) {
     props.onUpdateAnime(props.anime.id, params, () => event.target.reset());
   };
 
+  const handleClickFavorite = () => {
+    props.onCreateFavorite(props.event);
+  };
+
   const handleClick = () => {
     props.onDestroyAnime(props.anime);
   };
 
   return (
     <div>
-      <h1>Anime Information</h1>
+      <h1>Anime Details</h1>
       <p>Title: {props.anime.title}</p>
       <p>Description: {props.anime.description}</p>
       <p>Category: {props.anime.category}</p>
@@ -46,8 +50,13 @@ export function AnimesShow(props) {
           />
         </div>
         <button type="submit">Update Anime</button>
+        <button onClick={handleClick} type="submit">
+          Remove Anime
+        </button>
       </form>
-      <button onClick={handleClick}>Remove Anime</button>
+      <button onClick={handleClickFavorite} type="submit">
+        Add to Favorites
+      </button>
     </div>
   );
 }

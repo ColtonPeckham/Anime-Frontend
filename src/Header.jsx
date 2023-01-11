@@ -61,8 +61,12 @@ export function Header() {
                   <Link to="/about">About</Link>
                 </li>
                 |
+                <li className="nav-item">
+                  <Link to="/favorites">Favorites</Link>
+                </li>
                 {localStorage.jwt === undefined ? (
                   <>
+                    |
                     <li className="nav-item">
                       <a onClick={handleSignupShow} href="#">
                         Signup
@@ -82,11 +86,6 @@ export function Header() {
                     </a>
                   </li>
                 )}
-                <li className="nav-item">
-                  <a className="nav-link" href="/animes/new">
-                    Create Anime
-                  </a>
-                </li>
               </ul>
               <form className="d-flex" role="search">
                 <input
